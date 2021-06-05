@@ -19,6 +19,7 @@ The api contains following concepts
 
 To Do
 - Caching using Redis
+- Logging using log4net framework
 - Pub/Sub using Redis
 - Authentication move to foundation layer
 - Caching using singleton and redis
