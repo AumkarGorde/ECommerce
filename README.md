@@ -23,5 +23,6 @@ To Do
 - Authentication move to famework layer
 - Caching using singleton and redis
 - Use MongoDB as Database
-
+- Enable Cors
+- Turn in it in proper business ecomerce api as this contains only software design concepts 
 
