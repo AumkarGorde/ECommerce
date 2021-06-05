@@ -20,7 +20,7 @@ The api contains following concepts
 To Do
 - Caching using Redis
 - Pub/Sub using Redis
-- Authentication move to famework layer
+- Authentication move to foundation layer
 - Caching using singleton and redis
 - Use MongoDB as Database
 - Enable Cors
