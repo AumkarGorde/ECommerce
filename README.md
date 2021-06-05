@@ -26,4 +26,5 @@ To Do
 - Use MongoDB as Database
 - Enable Cors
 - Turn in it in proper business ecomerce api as this contains only software design concepts 
+- Refactor Authentication with proper implementaion issuer and audience.
 
