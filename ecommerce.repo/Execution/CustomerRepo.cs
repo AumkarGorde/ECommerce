@@ -13,6 +13,7 @@ namespace ecommerce.repo.Execution
     public class CustomerRepo : BaseRepo, ICustomerRepo
     {
         private string dbConnection = string.Empty;
+
         public CustomerRepo()
         {
             dbConnection = DBConnection;
