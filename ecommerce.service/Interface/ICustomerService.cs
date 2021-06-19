@@ -9,9 +9,9 @@ namespace ecommerce.service.Interface
 {
     public interface ICustomerService
     {
-        Task<Guid> AddCustomerData(CustomerModelDto model);
+        Task<string> AddCustomerData(CustomerModelDto model);
         Task<IEnumerable<CustomerModelDto>> GetAllCustomer();
-        Task<CustomerModelDto> GetById(Guid guid);
-        Task<Boolean> Delete(Guid guid);
+        Task<CustomerModelDto> GetById(string uid);
+        Task<Boolean> Delete(string uid);
     }
 }

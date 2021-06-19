@@ -20,7 +20,7 @@ namespace ecommerce.service.Execution
             _mapper = mapper;
         }
 
-        public async Task<Guid> AddCustomerData(CustomerModelDto customerModel)
+        public async Task<string> AddCustomerData(CustomerModelDto customerModel)
         {
             return await _customerRepo.AddCustomerData(customerModel);
         }
@@ -37,17 +37,17 @@ namespace ecommerce.service.Execution
             return objdto;
         }
 
-        public async Task<CustomerModelDto> GetById(Guid guid)
+        public async Task<CustomerModelDto> GetById(string uid)
         {
-            var custObj = await _customerRepo.GetById(guid);
+            var custObj = await _customerRepo.GetById(uid);
             var objDto = new CustomerModelDto();
             objDto = _mapper.Map<CustomerModelDto>(custObj);
             return objDto;
         }
 
-        public Task<bool> Delete(Guid guid)
+        public Task<bool> Delete(string uid)
         {
-            return _customerRepo.Delete(guid);
+            return _customerRepo.Delete(uid);
         }
     }
 }

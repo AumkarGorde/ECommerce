@@ -21,7 +21,7 @@ namespace ecommerce.api.Controllers
             _customerService = customerService;
         }
 
-        [Authorize]
+
         /// <summary>
         /// Get all details of Customer
         /// </summary>
@@ -40,16 +40,16 @@ namespace ecommerce.api.Controllers
             return Ok(data);
         }
 
-        [Authorize]
         [HttpGet("Get/{id}")]
-        public async Task<ActionResult> GetById(Guid id)
+        public async Task<ActionResult> GetById(string id)
         {
             var result = await _customerService.GetById(id);
             return Ok(result);
+
         }
 
         [HttpDelete]
-        public async Task<ActionResult> Delete(Guid guid)
+        public async Task<ActionResult> Delete(string guid)
         {
             var result = await _customerService.Delete(guid);
             return Ok(result);

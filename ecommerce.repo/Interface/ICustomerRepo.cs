@@ -10,8 +10,8 @@ namespace ecommerce.repo.Interface
     public interface ICustomerRepo
     {
         Task<IEnumerable<CustomerModel>> GetCustomerData();
-        Task<Guid> AddCustomerData(CustomerModelDto model);
-        Task<CustomerModel> GetById(Guid guid);
-        Task<Boolean> Delete(Guid guid);
+        Task<string> AddCustomerData(CustomerModelDto model);
+        Task<CustomerModel> GetById(string uid);
+        Task<Boolean> Delete(string uid);
     }
 }

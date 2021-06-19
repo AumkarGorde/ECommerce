@@ -18,101 +18,162 @@ namespace ecommerce.repo.Execution
             dbConnection = DBConnection;
         }
 
-        private Guid Address(string address)
+        private string Address(string address)
         {
-            var addrid = Guid.NewGuid();
-            using (var connection = new SqlConnection(dbConnection))
+            string addrid = GenerateId();
+            try
             {
-                connection.Open();
-                var insertAddress = @"INSERT INTO tblAddress(AddressId,Address) VALUES (@AddressId,@Address)";
-                var t = connection.Execute(insertAddress, new { AddressId = addrid, Address = address });
+                using (var connection = new SqlConnection(dbConnection))
+                {
+                    connection.Open();
+                    var insertAddress = @"INSERT INTO tblAddress(AddressId,Address) VALUES (@AddressId,@Address)";
+                    var t = connection.Execute(insertAddress, new { AddressId = addrid, Address = address });
+                    connection.Close();
+                }
+                return addrid;
             }
-            return addrid;
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+            
         }
 
-        private int DeleteAddr(Guid guid)
+        private int DeleteAddr(string uid)
         {
             int i = 0;
-            using (var con = new SqlConnection(dbConnection))
+            try
             {
-                con.Open();
-                string queryDelete = @"Delete from tblAddress where AddressId = @AddressId";
-                i = con.Execute(queryDelete, new { AddressId = guid });
+                using (var con = new SqlConnection(dbConnection))
+                {
+                    con.Open();
+                    string queryDelete = @"Delete from tblAddress where AddressId = @AddressId";
+                    i = con.Execute(queryDelete, new { AddressId = uid });
+                    con.Close();
+                }
+                return i;
             }
-            return i;
+            catch (Exception)
+            {
+
+                throw;
+            }
+            
         }
 
-        public async Task<Guid> AddCustomerData(CustomerModelDto customer)
+        public async Task<string> AddCustomerData(CustomerModelDto customer)
         {
-            var addr_fk = Address(customer.Address);
-            var cust_Id = Guid.NewGuid();
-            using (var connection = new SqlConnection(dbConnection))
+            try
             {
-                await connection.OpenAsync();
-                string insertCustomer = @"INSERT INTO tblCustomer (CustomerId, Name, Age, AddressId) 
-                                            VALUES (@CustomerId, @Name, @Age, @AddressId)";
-                await connection.ExecuteAsync(insertCustomer, new
+                var addr_fk = Address(customer.Address);
+                var cust_Id = GenerateId();
+                using (var connection = new SqlConnection(dbConnection))
                 {
-                    CustomerId = cust_Id,
-                    Name = customer.Name,
-                    Age = customer.Age,
-                    AddressId = addr_fk
-                });
-            }
+                    await connection.OpenAsync();
+                    string insertCustomer = @"INSERT INTO tblCustomer (CustomerId, Name, Age, AddressId) 
+                                            VALUES (@CustomerId, @Name, @Age, @AddressId)";
+                    await connection.ExecuteAsync(insertCustomer, new
+                    {
+                        CustomerId = cust_Id,
+                        Name = customer.Name,
+                        Age = customer.Age,
+                        AddressId = addr_fk
+                    });
 
-            return cust_Id;
+                    await connection.CloseAsync();
+                }
+
+                return cust_Id;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            
         }
         public async Task<IEnumerable<CustomerModel>> GetCustomerData()
         {
-            IEnumerable<CustomerModel> custerModel = null;
-            using (var connection = new SqlConnection(dbConnection))
+            try
             {
-                await connection.OpenAsync();
-                var getCustomersQuery = @"Select c.CustomerId, c.Name, c.Age, c.AddressId, a.Address from tblCustomer c 
+                IEnumerable<CustomerModel> custerModel = null;
+                using (var connection = new SqlConnection(dbConnection))
+                {
+                    await connection.OpenAsync();
+                    var getCustomersQuery = @"Select c.CustomerId, c.Name, c.Age, c.AddressId, a.Address from tblCustomer c 
                                             join tblAddress a on c.AddressId = a.AddressId ";
-                custerModel = await connection.QueryAsync<CustomerModel>(getCustomersQuery);
+                    custerModel = await connection.QueryAsync<CustomerModel>(getCustomersQuery);
+                    await connection.CloseAsync();
+                }
+                return custerModel;
             }
-            return custerModel;
+            catch (Exception)
+            {
+
+                throw;
+            }
+           
         }
 
-        public async Task<CustomerModel> GetById(Guid guid)
+        public async Task<CustomerModel> GetById(string uid)
         {
-            CustomerModel customer = null;
-            using (var con = new SqlConnection(dbConnection))
+            try
             {
-                await con.OpenAsync();
-                string getqueryById = @"Select c.CustomerId, c.Name, c.Age, c.AddressId, a.Address from tblCustomer c 
+                CustomerModel customer = null;
+                using (var con = new SqlConnection(dbConnection))
+                {
+                    await con.OpenAsync();
+                    string getqueryById = @"Select c.CustomerId, c.Name, c.Age, c.AddressId, a.Address from tblCustomer c 
                                             join tblAddress a on c.AddressId = a.AddressId where c.CustomerId = @CustomerId";
 
-                customer = await con.QuerySingleAsync<CustomerModel>(getqueryById, new { CustomerId = guid });
-            }
+                    customer = await con.QuerySingleAsync<CustomerModel>(getqueryById, new { CustomerId = uid });
+                    await con.CloseAsync();
+                }
 
-            return customer;
+                return customer;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            
         }
 
-        public async Task<bool> Delete(Guid guid)
+        public async Task<bool> Delete(string uid)
         {
-            CustomerModel customer = GetById(guid).GetAwaiter().GetResult();
+            try
+            {
+                CustomerModel customer = GetById(uid).GetAwaiter().GetResult();
 
-            int r = 0;
-            using (var con = new SqlConnection(dbConnection))
-            {
-                await con.OpenAsync();
-                var deleteQuery = @"Delete from tblCustomer where CustomerId = @CustomerId";
-                r = await con.ExecuteAsync(deleteQuery, new { CustomerId = guid });
-            }
-            if (r >= 1)
-            {
-                int i = DeleteAddr(customer.AddressId);
-                if (i >= 1)
-                    return true;
+                int r = 0;
+                using (var con = new SqlConnection(dbConnection))
+                {
+                    await con.OpenAsync();
+                    var deleteQuery = @"Delete from tblCustomer where CustomerId = @CustomerId";
+                    r = await con.ExecuteAsync(deleteQuery, new { CustomerId = uid });
+                    await con.CloseAsync();
+                }
+                if (r >= 1)
+                {
+                    int i = DeleteAddr(customer.AddressId);
+                    if (i >= 1)
+                        return true;
+                    else
+                        return false;
+                }
                 else
+                {
                     return false;
+                }
             }
-            else
+            catch (Exception)
             {
-                return false;
+
+                throw;
             }
+            
         }
     }
 }

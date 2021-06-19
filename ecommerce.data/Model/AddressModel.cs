@@ -6,7 +6,7 @@ namespace ecommerce.data.Model
 {
     public class AddressModel
     {
-        public Guid AddressId { get; set; }
+        public string AddressId { get; set; }
         public string Address { get; set; }
     }
 }
