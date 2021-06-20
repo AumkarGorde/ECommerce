@@ -21,10 +21,8 @@ To Do
 - Caching using Redis
 - Logging using log4net framework
 - Pub/Sub using Redis
-- Authentication move to foundation layer
 - Caching using singleton and redis
 - Use MongoDB as Database
 - Enable Cors
 - Turn in it in proper business ecomerce api as this contains only software design concepts 
-- Refactor Authentication with proper implementaion issuer and audience.
 
