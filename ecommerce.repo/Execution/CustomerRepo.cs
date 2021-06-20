@@ -33,7 +33,7 @@ namespace ecommerce.repo.Execution
                 }
                 return addrid;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
 
                 throw;

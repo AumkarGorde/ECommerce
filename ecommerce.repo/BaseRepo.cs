@@ -1,4 +1,6 @@
-﻿using System;
+﻿using ecommerce.foundation;
+using Microsoft.Extensions.Options;
+using System;
 
 namespace ecommerce.repo
 {
@@ -7,7 +9,7 @@ namespace ecommerce.repo
         public string DBConnection = string.Empty;
         public BaseRepo()
         {
-            DBConnection = "Data Source=DESKTOP-MBONB33;Initial Catalog=EComerceDB;Integrated Security=True";
+            DBConnection = ApplicationConfigurations.DBConnection;
         }
 
         public string GenerateId()

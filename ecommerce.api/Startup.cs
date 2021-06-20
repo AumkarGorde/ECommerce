@@ -6,6 +6,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using ecommerce.data.CustomerMapper;
+using ecommerce.foundation;
 using ecommerce.repo.Execution;
 using ecommerce.repo.Interface;
 using ecommerce.service.Execution;
@@ -29,6 +30,7 @@ namespace ecommerce.api
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
+            GlobalConfiguartions.SetGlobalConfiguration(Configuration);
         }
 
         public IConfiguration Configuration { get; }
@@ -36,32 +38,34 @@ namespace ecommerce.api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+           
             // Register the Swagger generator, defining 1 or more Swagger documents
             SwaggerServices.Register(services);
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-       .AddJwtBearer(options =>
-       {
-
-           options.TokenValidationParameters = new TokenValidationParameters
-           {
-               ValidateIssuer = true,
-               ValidateAudience = true,
-               ValidateLifetime = true,
-               ValidateIssuerSigningKey = true,
-               ValidIssuer = "newSearch",
-               ValidAudience = "newSearch",
-               IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("651997651997651997"))
-           };
-       });
+                .AddJwtBearer(options =>
+                {
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuer = true,
+                        ValidateAudience = true,
+                        ValidateLifetime = true,
+                        ValidateIssuerSigningKey = true,
+                        ValidIssuer = "https://localhost:44345",
+                        ValidAudience = "https://localhost:44345",
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(ApplicationConfigurations.SecretKey))
+                    };
+                });
 
 
             services.AddControllers();
             services.AddScoped<ICustomerService, CustomerService>();
             services.AddScoped<ICustomerRepo, CustomerRepo>();
             services.AddAutoMapper(typeof(CustomerMapping));
+            services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IUserRepo, UserRepo>();
 
-            
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
