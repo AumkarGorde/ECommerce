@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ecommerce.api.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class CustomerController : ControllerBase
@@ -21,11 +22,12 @@ namespace ecommerce.api.Controllers
             _customerService = customerService;
         }
 
-
         /// <summary>
         /// Get all details of Customer
         /// </summary>
         /// <returns></returns>
+        /// 
+
         [HttpGet("Get")]
         public async Task<ActionResult> CustomerGet()
         {
@@ -33,6 +35,7 @@ namespace ecommerce.api.Controllers
             return Ok(result);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost("Post")]
         public async Task<ActionResult> CustomerAdd(CustomerModelDto customer)
         {
@@ -40,6 +43,7 @@ namespace ecommerce.api.Controllers
             return Ok(data);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpGet("Get/{id}")]
         public async Task<ActionResult> GetById(string id)
         {
@@ -48,6 +52,7 @@ namespace ecommerce.api.Controllers
 
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpDelete]
         public async Task<ActionResult> Delete(string guid)
         {
