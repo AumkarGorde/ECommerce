@@ -14,7 +14,7 @@ namespace ecommerce.repo.Execution
             dbConncetion = DBConnection;
         }
 
-        public UserModelSecret AuthenticateUser(UserModel user)
+        public UserModelSecret AuthenticateUser(User user)
         {
             var obj = authenticateUser(user.UserName, user.Password);
             if (obj is null)
@@ -23,9 +23,8 @@ namespace ecommerce.repo.Execution
                 return obj;
         }
 
-        public bool RegisterUser(UserModelSecret user)
+        public UserModelSecret RegisterUser(UserModelSecret user)
         {
-            bool result = false;
             if (!checkUserExist(user.UserName))
             {
                 user.Id = GenerateId();
@@ -37,10 +36,13 @@ namespace ecommerce.repo.Execution
                     connection.Execute(queryInsert, user);
                     connection.Close();
                 }
-                result = true;
+            }
+            else
+            {
+                return null;
             }
 
-            return result;
+            return user;
         }
 
         private bool checkUserExist(string userName)

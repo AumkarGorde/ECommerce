@@ -7,7 +7,7 @@ namespace ecommerce.service.Interface
 {
     public interface IUserService
     {
-        public bool RegisterUser(UserModel user);
-        public UserModelSecret AuthenticateUser(UserModel user);
+        public UserModelSecret RegisterUser(UserModel user);
+        public UserModelSecret AuthenticateUser(User user);
     }
 }

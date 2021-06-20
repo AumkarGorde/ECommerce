@@ -68,7 +68,7 @@ namespace ecommerce.repo.Execution
             try
             {
                 var addr_fk = Address(customer.Address);
-                var cust_Id = GenerateId();
+                var cust_Id = customer.CustomerId;
                 using (var connection = new SqlConnection(dbConnection))
                 {
                     await connection.OpenAsync();
