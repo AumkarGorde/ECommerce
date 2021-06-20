@@ -35,13 +35,13 @@ namespace ecommerce.api.Controllers
             return Ok(result);
         }
 
-        [Authorize(Roles = "Admin")]
-        [HttpPost("Post")]
-        public async Task<ActionResult> CustomerAdd(CustomerModelDto customer)
-        {
-            var data = await _customerService.AddCustomerData(customer);
-            return Ok(data);
-        }
+        //[Authorize(Roles = "Admin")]
+        //[HttpPost("Post")]
+        //public async Task<ActionResult> CustomerAdd(CustomerModelDto customer)
+        //{
+        //    var data = await _customerService.AddCustomerData(customer);
+        //    return Ok(data);
+        //}
 
         [Authorize(Roles = "Admin")]
         [HttpGet("Get/{id}")]

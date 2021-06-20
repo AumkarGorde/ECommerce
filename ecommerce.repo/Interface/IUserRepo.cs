@@ -7,8 +7,8 @@ namespace ecommerce.repo.Interface
 {
     public interface IUserRepo
     {
-        public bool RegisterUser(UserModelSecret user);
+        public UserModelSecret RegisterUser(UserModelSecret user);
 
-        public UserModelSecret AuthenticateUser(UserModel user);
+        public UserModelSecret AuthenticateUser(User user);
     }
 }

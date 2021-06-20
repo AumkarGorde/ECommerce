@@ -16,7 +16,7 @@ namespace ecommerce.service.Execution
             _userRepo = userRepo;
         }
 
-        public UserModelSecret AuthenticateUser(UserModel user)
+        public UserModelSecret AuthenticateUser(User user)
         {
             var obj = _userRepo.AuthenticateUser(user);
             if (obj is null)
@@ -35,7 +35,7 @@ namespace ecommerce.service.Execution
             return obj;
         }
 
-        public bool RegisterUser(UserModel user)
+        public UserModelSecret RegisterUser(UserModel user)
         {
             UserModelSecret userModel = new UserModelSecret()
             {
@@ -43,6 +43,6 @@ namespace ecommerce.service.Execution
                 Password = user.Password
             };
             return _userRepo.RegisterUser(userModel); ;
-            }
+        }
     }
 }
