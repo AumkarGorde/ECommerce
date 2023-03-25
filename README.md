@@ -17,12 +17,5 @@ The api contains following concepts
 - Inbuilt DI
 - DTO implementation
 
-To Do
-- Caching using Redis
-- Logging using log4net framework
-- Pub/Sub using Redis
-- Caching using singleton and redis
-- Use MongoDB as Database
-- Enable Cors
 
 
